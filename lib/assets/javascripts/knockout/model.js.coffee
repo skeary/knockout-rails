@@ -138,7 +138,12 @@ class Model extends Module
 
     #for key, value of json
     for key in availableFields when ignores.indexOf(key) < 0
-      @[key] ||= ko.trackedObservable()
+      @[key] ||= ko.observable()
+      @[key].isModified = false
+      @[key].subscribe((newValue) =>
+        @[key].isModified = true
+        return
+      )
       @errors[key] ||= ko.observable()
     @enableValidations()
     @
