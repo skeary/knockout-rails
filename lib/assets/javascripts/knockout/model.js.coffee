@@ -92,17 +92,6 @@ Ajax =
         .done (resp, status, xhr)-> @updateErrors {}
         #.always (xhr, status) -> console.info "always: ", this
 
-
-
-ko.trackedObservable = (initialState) =>
-  observable = ko.observable(initialState)
-  observable.isModified = false
-  observable.subscribe((newValue) =>
-    observable.isModified = true
-    return
-  )
-  return observable
-
 class Model extends Module
   @extend Ajax.ClassMethods
   @extend Events.ClassMethods
@@ -139,9 +128,9 @@ class Model extends Module
     #for key, value of json
     for key in availableFields when ignores.indexOf(key) < 0
       @[key] ||= ko.observable()
-      @[key].isModified = false
+      @[key].isModified = ko.observable(false)
       @[key].subscribe((newValue) ->
-        this.target.isModified = true
+        this.target.isModified(true)
         return
       )
       @errors[key] ||= ko.observable()
