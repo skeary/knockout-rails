@@ -129,9 +129,12 @@ class Model extends Module
     for key in availableFields when ignores.indexOf(key) < 0
       @[key] ||= ko.observable()
       @[key].isModified = ko.observable(false)
-      @[key].subscribe((newValue) ->
-        this.target.isModified(true)
-        return
+      @[key].subscribe(
+        (newValue) ->
+          this.isModified(true)
+          return
+        ,
+        @[key]
       )
       @errors[key] ||= ko.observable()
     @enableValidations()
