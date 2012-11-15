@@ -94,6 +94,15 @@ Ajax =
 
 
 
+ko.trackedObservable = (initialState) =>
+  observable = ko.observable(initialState)
+  observable.isModified = false
+  observable.subscribe((newValue) =>
+    observable.isModified = true
+    return
+  )
+  return observable
+
 class Model extends Module
   @extend Ajax.ClassMethods
   @extend Events.ClassMethods
@@ -129,7 +138,7 @@ class Model extends Module
 
     #for key, value of json
     for key in availableFields when ignores.indexOf(key) < 0
-      @[key] ||= ko.observable()
+      @[key] ||= ko.trackedObservable()
       @errors[key] ||= ko.observable()
     @enableValidations()
     @
