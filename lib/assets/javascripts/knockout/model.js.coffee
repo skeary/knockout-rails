@@ -141,7 +141,7 @@ class Model extends Module
       @[key] ||= ko.observable()
       @[key].isModified = false
       @[key].subscribe((newValue) =>
-        @[key].isModified = true
+        this.target.isModified = true
         return
       )
       @errors[key] ||= ko.observable()
