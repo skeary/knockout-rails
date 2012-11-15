@@ -137,6 +137,7 @@ class Model extends Module
         @[key]
       )
       @errors[key] ||= ko.observable()
+      @[key].errors = @errors[key]
     @enableValidations()
     @
 
