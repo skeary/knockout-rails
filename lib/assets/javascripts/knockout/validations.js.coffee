@@ -55,10 +55,9 @@ Validations =
 
   InstanceMethods:
     isValid: ->
-      for key in availableFields when ignores.indexOf(key) < 0
-        @[key].isModified(true)
       return true unless @errors
       for key, value of @errors
+        @[key].isModified(true)
         return false unless Object.isEmpty value()
       return true
 

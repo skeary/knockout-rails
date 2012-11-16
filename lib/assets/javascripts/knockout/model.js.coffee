@@ -92,6 +92,7 @@ Ajax =
         .done (resp, status, xhr)-> @updateErrors {}
         #.always (xhr, status) -> console.info "always: ", this
 
+
 class Model extends Module
   @extend Ajax.ClassMethods
   @extend Events.ClassMethods
