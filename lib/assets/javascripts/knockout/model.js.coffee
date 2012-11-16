@@ -1,6 +1,7 @@
 #=require jquery
 #=require knockout/validations
 #=require knockout/validators
+#=require knockout/validation_bindings
 
 # Module is taken from Spine.js
 moduleKeywords = ['included', 'extended']
