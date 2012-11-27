@@ -58,6 +58,7 @@ Validations =
       return true unless @errors
       for key, value of @errors
         @[key].isModified(true)
+      for key, value of @errors
         return false unless Object.isEmpty value()
       return true
 
