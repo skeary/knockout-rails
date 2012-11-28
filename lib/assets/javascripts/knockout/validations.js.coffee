@@ -30,7 +30,10 @@ class ValidationContext
 
       shouldValidate = allowedByOnly and not deniedByExcept
 
-      validator.call(me, me.subject, field, options) if shouldValidate
+      if shouldValidate
+        validator.call(me, me.subject, field, options) if shouldValidate
+      else
+        null
 
     validatorSubscriber.subscribe (newError) ->
       currentError = me.subject.errors[field]
