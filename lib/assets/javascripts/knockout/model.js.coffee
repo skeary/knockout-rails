@@ -24,24 +24,24 @@ Events =
   ClassMethods:
     extended: ->
       @include Events.InstanceMethods
+    upon: (eventName, callback) ->
+      @events ||= {}
+      @events[eventName] || = []
+      @events[eventName].push callback
+      this # Just to chain it if we need to
 
   InstanceMethods:
-    included: ->
-      @constructor.events ||= {}
-    upon: (eventName, callback) ->
-      @constructor.events[eventName] || = []
-      @constructor.events[eventName].push callback
-      this # Just to chain it if we need to
     trigger: (eventName, args...) ->
       events = @constructor.events
-      handlers = events[eventName] || []
-      callback.apply(this, args) for callback in handlers
+      if events?
+        handlers = events[eventName] || []
+        callback.apply(this, args) for callback in handlers
       this # so that we can chain
 
 
 Callbacks =
   ClassMethods:
-    beforeSave: (callback) -> @constructor.upon('beforeSave', callback)
+    beforeSave: (callback) -> @upon('beforeSave', callback)
 
 Ajax =
   ClassMethods:
