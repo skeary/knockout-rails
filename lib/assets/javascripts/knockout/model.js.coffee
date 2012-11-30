@@ -23,14 +23,15 @@ class Module
 Events =
   ClassMethods:
     extended: ->
-      @constructor.events ||= {}
       @include Events.InstanceMethods
     upon: (eventName, callback) ->
-      @constructor.events[eventName] || = []
-      @constructor.events[eventName].push callback
+      @events[eventName] || = []
+      @events[eventName].push callback
       this # Just to chain it if we need to
 
   InstanceMethods:
+    included: ->
+      @constructor.events ||= {}
     trigger: (eventName, args...) ->
       events = @constructor.events
       handlers = events[eventName] || []
