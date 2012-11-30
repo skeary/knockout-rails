@@ -36,7 +36,7 @@ Events =
 
 
 Callbacks =
-  ClassMethods:
+  InstanceMethods:
     beforeSave: (callback) -> @upon('beforeSave', callback)
 
 Ajax =
@@ -93,8 +93,8 @@ Ajax =
 
 class Model extends Module
   @extend Ajax.ClassMethods
-  @extend Callbacks.ClassMethods
   @extend ko.Validations.ClassMethods
+  @include Callbacks.InstanceMethods
   @include Events.InstanceMethods
 
   @fields: (fieldNames...) ->
