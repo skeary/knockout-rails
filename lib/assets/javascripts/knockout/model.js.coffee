@@ -21,13 +21,16 @@ class Module
     @
     
 Events =
-  InstanceMethods:
-    included: ->
-      @events ||= {}
+  ClassMethods:
+    extended: ->
+      @constructor.events ||= {}
+      @include Events.InstanceMethods
     upon: (eventName, callback) ->
-      @events[eventName] || = []
-      @events[eventName].push callback
+      @constructor.events[eventName] || = []
+      @constructor.events[eventName].push callback
       this # Just to chain it if we need to
+
+  InstanceMethods:
     trigger: (eventName, args...) ->
       events = @constructor.events
       handlers = events[eventName] || []
@@ -36,7 +39,7 @@ Events =
 
 
 Callbacks =
-  InstanceMethods:
+  ClassMethods:
     beforeSave: (callback) -> @upon('beforeSave', callback)
 
 Ajax =
@@ -93,9 +96,9 @@ Ajax =
 
 class Model extends Module
   @extend Ajax.ClassMethods
+  @extend Events.ClassMethods
+  @extend Callbacks.ClassMethods
   @extend ko.Validations.ClassMethods
-  @include Callbacks.InstanceMethods
-  @include Events.InstanceMethods
 
   @fields: (fieldNames...) ->
     fieldNames = fieldNames.flatten() # when a single arg is given as an array
