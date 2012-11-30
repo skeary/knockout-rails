@@ -31,7 +31,7 @@ class ValidationContext
       shouldValidate = allowedByOnly and not deniedByExcept
 
       if shouldValidate
-        validator.call(me, me.subject, field, options) if shouldValidate
+        validator.call(me, me.subject, field, options)
       else
         null
 
