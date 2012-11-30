@@ -42,6 +42,7 @@ Events =
 Callbacks =
   ClassMethods:
     beforeSave: (callback) -> @upon('beforeSave', callback)
+    afterSave: (callback) -> @upon('afterSave', callback)  
 
 Ajax =
   ClassMethods:
@@ -91,7 +92,10 @@ Ajax =
 
       $.ajax(params)
         #.fail (xhr, status, errorThrown)-> console.error "fail: ", this
-        .done (resp, status, xhr)-> @updateErrors {}
+        .done (resp, status, xhr)->
+          @updateErrors {}
+          if xhr.status == 200 # OK
+            @trigger('afterSave', resp)
         #.always (xhr, status) -> console.info "always: ", this
 
 
