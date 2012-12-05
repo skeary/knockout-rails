@@ -92,11 +92,12 @@ Ajax =
             @updateErrors(errorData)
 
       $.ajax(params)
-        .fail (xhr, status, errorThrown)-> @trigger('afterSaveError', xhr, status, errorThrown)
-        .done (resp, status, xhr)->
+        .fail((xhr, status, errorThrown)-> @trigger('afterSaveError', xhr, status, errorThrown))
+        .done((resp, status, xhr)->
           @updateErrors {}
           if xhr.status == 200 # OK
             @trigger('afterSave', resp)
+        )
         #.always (xhr, status) -> console.info "always: ", this
 
 
