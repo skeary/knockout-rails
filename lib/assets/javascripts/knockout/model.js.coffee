@@ -43,6 +43,7 @@ Callbacks =
   ClassMethods:
     beforeSave: (callback) -> @upon('beforeSave', callback)
     afterSave: (callback) -> @upon('afterSave', callback)  
+    afterSaveError: (callback) -> @upon('afterSaveError', callback)  
 
 Ajax =
   ClassMethods:
@@ -91,7 +92,7 @@ Ajax =
             @updateErrors(errorData)
 
       $.ajax(params)
-        #.fail (xhr, status, errorThrown)-> console.error "fail: ", this
+        .fail (xhr, status, errorThrown)-> @trigger('afterSaveError', xhr, status, errorThrown)
         .done (resp, status, xhr)->
           @updateErrors {}
           if xhr.status == 200 # OK
